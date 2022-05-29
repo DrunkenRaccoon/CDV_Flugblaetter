@@ -16,8 +16,29 @@ public class Walker : MonoBehaviour
 
     UnityEngine.AI.NavMeshAgent agent;
 
-    // Start is called before the first frame update
-    void Start()
+    enum Gender {Female, Male}
+    enum Job {Unemployed, Farmer, Worker, Employee, Officer, Capitalist}
+    enum Religion {Catholic, Protestant, Jewish, Atheist}
+    enum CivilStatus {Single, Married, Widowed, Orphaned}
+    enum PoliticalStance {Liberal, Conservative}
+
+    enum Party {KPD, USPD, MSPD, DDP, WBWB, Zentrum, Buergerpartei}
+
+    string firstName;
+    Gender gender;
+    int age;
+    Job job;
+    bool isWarDisabled;
+    Religion religion;
+    CivilStatus civilStatus;
+    bool isParent;
+    PoliticalStance politicalStance;
+
+    Party partyAffiliation;
+
+
+// Start is called before the first frame update
+void Start()
     {
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         agent.updateRotation = false;
@@ -61,5 +82,10 @@ public class Walker : MonoBehaviour
     public bool isUnseen()
     {
         return !camScript.isInCameraBounds(transform.position);
+    }
+
+    void generateCharacterTraits()
+    {
+        //to implement
     }
 }
