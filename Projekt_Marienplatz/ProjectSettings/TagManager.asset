@@ -41,3 +41,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Backround Color
+    uniqueID: 1035084675
+    locked: 0
+  - name: Background
+    uniqueID: 2290839783
+    locked: 0
+  - name: Persons
+    uniqueID: 3050084095
+    locked: 0
+  - name: Way Points
+    uniqueID: 2765046647
+    locked: 0

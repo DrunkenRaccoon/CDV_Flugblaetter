@@ -90,7 +90,7 @@ public class Walker : MonoBehaviour
 
     public bool isAtDestination()
     {
-        if( Vector2.SqrMagnitude(transform.position - agent.destination) < 3f )
+        if( Vector2.SqrMagnitude(transform.position - agent.destination) < 5f )
         {
             return true;
         }
