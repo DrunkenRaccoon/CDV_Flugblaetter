@@ -14,6 +14,9 @@ public class WayPoints : MonoBehaviour
     [SerializeField] 
     GameObject walkerPrefab;
 
+    GameObject camObject;
+    Cam camScript;
+
 
     // Start is called before the first frame update
     void Start()
@@ -22,9 +25,10 @@ public class WayPoints : MonoBehaviour
         waypointTransforms = GetComponentsInChildren<Transform>(waypoints);
         waypointPositions = new Vector2[waypoints.transform.childCount];
 
-        
+        camObject = GameObject.Find("Main Camera");
+        camScript = camObject.GetComponent<Cam>();
 
-        for(int i = 0; i < waypointPositions.Length; i++)
+        for (int i = 0; i < waypointPositions.Length; i++)
         {
             waypointPositions[i] = waypointTransforms[i + 1].position;
         }
@@ -59,6 +63,8 @@ public class WayPoints : MonoBehaviour
         int ran = Random.Range(0, waypointPositions.Length);       
         return waypointPositions[ran];
     }
+
+    //public Vector2 getSpawnPosition()
 
     void spawnWalker()
     {

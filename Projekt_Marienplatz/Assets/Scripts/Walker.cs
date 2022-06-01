@@ -17,7 +17,7 @@ public class Walker : MonoBehaviour
     UnityEngine.AI.NavMeshAgent agent;
 
     public enum Gender {Female, Male}
-    public enum Job {Unemployed, Farmer, Worker, Employee, Officer, Capitalist, Soldier}
+    public enum Job { Employee = 0, Worker = 1, Unemployed = 2, Officer = 3, Farmer = 4, Capitalist = 5, Soldier = 6}
     public enum Religion {Catholic, Protestant, Jewish, Atheist}
     public enum CivilStatus {Single, Married, Widowed, Orphaned}
     public enum PoliticalStance {Liberal, Conservative}
@@ -38,9 +38,17 @@ public class Walker : MonoBehaviour
 
     public Party[] partyAffiliation;
 
+    SpriteRenderer bodySprite;
 
-// Start is called before the first frame update
-void Start()
+    [SerializeField]
+    Sprite[] characterSpritesMale = new Sprite[7];
+    [SerializeField]
+    Sprite[] characterSpritesFemale = new Sprite[6];
+    
+
+
+    // Start is called before the first frame update
+    void Start()
     {
         agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         agent.updateRotation = false;
@@ -56,7 +64,10 @@ void Start()
         
         agent.destination = waypointsScript.getRandomDestination();
 
+        bodySprite = GetComponentInChildren<SpriteRenderer>();
+
         generateCharacterTraits();
+        generateCharacterAppearance();
     }
 
     // Update is called once per frame
@@ -101,5 +112,18 @@ void Start()
             gender = Gender.Male;
             firstName = namesMale[Random.Range(0, namesMale.Length)];
         }            
+    }
+
+    void generateCharacterAppearance()
+    {
+        int jobInt = (int) job;
+        if (gender == Gender.Female)
+        {
+            bodySprite.sprite = characterSpritesFemale[jobInt];
+        }
+        else if (gender == Gender.Male)
+        {
+            bodySprite.sprite = characterSpritesMale[jobInt];
+        }
     }
 }
