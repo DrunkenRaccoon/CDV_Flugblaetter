@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 1684367838857333139}
   - component: {fileID: 1684367838857333138}
   - component: {fileID: 7589204899401289658}
-  - component: {fileID: 1124316118626425836}
-  m_Layer: 0
+  - component: {fileID: 19347934925929505}
+  m_Layer: 3
   m_Name: Walker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,6 +73,7 @@ MonoBehaviour:
   distFromPlayer: 0
   firstName: 
   gender: 0
+  education: 0
   age: 0
   job: 0
   isWarDisabled: 0
@@ -117,8 +118,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!70 &1124316118626425836
-CapsuleCollider2D:
+--- !u!58 &19347934925929505
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -130,9 +131,9 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -3.34}
-  m_Size: {x: 13, y: 19.41}
-  m_Direction: 0
+  m_Offset: {x: -2, y: 0}
+  serializedVersion: 2
+  m_Radius: 3.96
 --- !u!1 &1684367839743549240
 GameObject:
   m_ObjectHideFlags: 0
@@ -143,7 +144,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1684367839743549241}
   - component: {fileID: 1684367839743549242}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -209,7 +210,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 10, y: 6}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
@@ -224,7 +225,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5818613708923621282}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Accessoire
   m_TagString: Untagged
   m_Icon: {fileID: 0}

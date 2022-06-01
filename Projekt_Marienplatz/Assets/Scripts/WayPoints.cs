@@ -64,13 +64,25 @@ public class WayPoints : MonoBehaviour
         return waypointPositions[ran];
     }
 
+    public Vector2 getRandomUnseenDestination()
+    {
+        Vector2 ranDest = getRandomDestination();
+
+        if (!camScript.isInCameraBounds(ranDest))
+        {
+            return ranDest;
+        }
+
+        return getRandomUnseenDestination();
+    }
+
     //public Vector2 getSpawnPosition()
 
     void spawnWalker()
     {
         walkerList.Add(
                 Instantiate(walkerPrefab,
-                getRandomDestination(),
+                getRandomUnseenDestination(),
                 Quaternion.identity));
     }
 
