@@ -12,8 +12,11 @@ public class Walker : MonoBehaviour
     Cam camScript;
 
     GameObject player;
+    Player playerScript;
     float reachOfPlayer = 22f;
     public float distFromPlayer;
+
+    public bool hasReceivedLeaflet = false;
 
     UnityEngine.AI.NavMeshAgent agent;
 
@@ -63,6 +66,7 @@ public class Walker : MonoBehaviour
         camScript = camObject.GetComponent<Cam>();
 
         player = GameObject.Find("Player");
+        playerScript = player.GetComponent<Player>();
 
         agent.destination = waypointsScript.getRandomDestination();
 
@@ -75,17 +79,7 @@ public class Walker : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        distFromPlayer = Vector2.Distance(transform.position, player.transform.position);
-        if ( Vector2.Distance(transform.position, player.transform.position) <= reachOfPlayer)
-        {
-            agent.isStopped = true;
-            this.GetComponentInChildren<SpriteRenderer>().color = Color.yellow;
-        }
-        else
-        {
-            agent.isStopped = false;
-            this.GetComponentInChildren<SpriteRenderer>().color = Color.white;
-        }
+        tryInteractingWithPlayer();
     }
 
     public bool isAtDestination()
@@ -165,5 +159,39 @@ public class Walker : MonoBehaviour
         {
             bodySprite.sprite = characterSpritesMale[jobInt];
         }
+    }
+
+    void tryInteractingWithPlayer()
+    {
+        distFromPlayer = Vector2.Distance(transform.position, player.transform.position);
+        if (distFromPlayer <= reachOfPlayer && (!playerScript.isTalkingToWalker || playerScript.talkingWaker == gameObject))
+        {
+            agent.isStopped = true;
+            this.GetComponentInChildren<SpriteRenderer>().color = Color.yellow;
+            playerScript.isTalkingToWalker = true;
+            playerScript.talkingWaker = gameObject;
+        }
+        else
+        {
+            if(playerScript.talkingWaker == gameObject)
+            {
+                playerScript.isTalkingToWalker = false;
+                playerScript.talkingWaker = null;
+            }
+            agent.isStopped = false;
+            this.GetComponentInChildren<SpriteRenderer>().color = Color.white;
+        }
+    }
+
+
+    public int rewardLeaflet()
+    {
+        // need to implement reward function. Always returns 1 or 0 for now.
+        if (!hasReceivedLeaflet)
+        {
+            hasReceivedLeaflet = true;
+            return 1;
+        }
+        return 0;
     }
 }
