@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1684367838857333139}
   - component: {fileID: 1684367838857333138}
   - component: {fileID: 7589204899401289658}
-  - component: {fileID: 19347934925929505}
+  - component: {fileID: 2084142891462342568}
   m_Layer: 3
   m_Name: Walker
   m_TagString: Untagged
@@ -71,6 +71,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distFromPlayer: 0
+  hasReceivedLeaflet: 0
   firstName: 
   gender: 0
   education: 0
@@ -93,7 +94,7 @@ MonoBehaviour:
   characterSpritesFemale:
   - {fileID: 21300000, guid: 5505f0c3a4eff04439ad4b021633d297, type: 3}
   - {fileID: 21300000, guid: 2061b0ba7eca12642b225ca6ba1e1c14, type: 3}
-  - {fileID: 21300000, guid: 1a6dc5bd3ab07104294510c9a0e48964, type: 3}
+  - {fileID: 21300000, guid: 9051dda1f39aa294d91d54ac5020a2ec, type: 3}
   - {fileID: 21300000, guid: ccf97d822e9d4574abe2377628065ce7, type: 3}
   - {fileID: 21300000, guid: a5666e149aedd7144b280cb0499ee14a, type: 3}
   - {fileID: 21300000, guid: e2dab3816d776554e9b143bd21a6f03a, type: 3}
@@ -110,7 +111,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 3
+  m_LinearDrag: 6
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -118,8 +119,8 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!58 &19347934925929505
-CircleCollider2D:
+--- !u!70 &2084142891462342568
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -131,9 +132,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -2, y: 0}
-  serializedVersion: 2
-  m_Radius: 3.96
+  m_Offset: {x: 0, y: -1.53}
+  m_Size: {x: 5.2, y: 7.98}
+  m_Direction: 0
 --- !u!1 &1684367839743549240
 GameObject:
   m_ObjectHideFlags: 0
@@ -203,7 +204,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1244883201
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
