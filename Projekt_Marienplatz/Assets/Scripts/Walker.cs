@@ -43,7 +43,10 @@ public class Walker : MonoBehaviour
 
     public Party[] partyAffiliation;
 
+    GameObject bodyObject;
+    GameObject outlineObject;
     SpriteRenderer bodySprite;
+    SpriteRenderer outlineSprite;
 
     [SerializeField]
     Sprite[] characterSpritesMale = new Sprite[7];
@@ -70,7 +73,10 @@ public class Walker : MonoBehaviour
 
         agent.destination = waypointsScript.getRandomDestination();
 
-        bodySprite = GetComponentInChildren<SpriteRenderer>();
+        bodyObject = transform.Find("Body").gameObject;
+        outlineObject = transform.Find("Outline").gameObject;
+        bodySprite = bodyObject.GetComponent<SpriteRenderer>();
+        outlineSprite = outlineObject.GetComponent<SpriteRenderer>();
 
         generateCharacterTraits();
         generateCharacterAppearance();
@@ -153,12 +159,14 @@ public class Walker : MonoBehaviour
         int jobInt = (int) job;
         if (gender == Gender.Female)
         {
-            bodySprite.sprite = characterSpritesFemale[jobInt];
+            outlineSprite.sprite = bodySprite.sprite = characterSpritesFemale[jobInt];
         }
         else if (gender == Gender.Male)
         {
-            bodySprite.sprite = characterSpritesMale[jobInt];
+            outlineSprite.sprite = bodySprite.sprite = characterSpritesMale[jobInt];
         }
+        bodySprite.color = Color.white;
+        outlineSprite.color = Color.black;
     }
 
     void tryInteractingWithPlayer()
@@ -167,7 +175,8 @@ public class Walker : MonoBehaviour
         if (distFromPlayer <= reachOfPlayer && (!playerScript.isTalkingToWalker || playerScript.talkingWaker == gameObject))
         {
             agent.isStopped = true;
-            this.GetComponentInChildren<SpriteRenderer>().color = Color.yellow;
+            //bodySprite.color = Color.yellow;
+            outlineSprite.enabled = true;
             playerScript.isTalkingToWalker = true;
             playerScript.talkingWaker = gameObject;
         }
@@ -179,7 +188,8 @@ public class Walker : MonoBehaviour
                 playerScript.talkingWaker = null;
             }
             agent.isStopped = false;
-            this.GetComponentInChildren<SpriteRenderer>().color = Color.white;
+            //this.GetComponentInChildren<SpriteRenderer>().color = Color.white;
+            outlineSprite.enabled = false;
         }
     }
 

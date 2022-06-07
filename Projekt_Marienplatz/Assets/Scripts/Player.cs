@@ -12,6 +12,9 @@ public class Player : MonoBehaviour
 
     public int score = 0;
 
+    readonly int mapMaxHorizontal = 650;
+    readonly int mapMaxVertical = 350;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,8 +33,24 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector2 translationVector = new Vector2(Input.GetAxis("Horizontal") * speed, Input.GetAxis("Vertical") * speed) * Time.fixedDeltaTime;
+        float horizontalInput = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Vertical");
+        Vector2 translationVector = new Vector2(horizontalInput * speed, verticalInput * speed) * Time.fixedDeltaTime;
+
+
+        /*float camHeight = Camera.main.orthographicSize;
+        float camWidth = camHeight * Camera.main.aspect;
+        float posX = transform.position.x;
+        float posY = transform.position.y;
+
+        bool isNotAllowedToMove =
+               (posY - camHeight > -mapMaxVertical && rbody.velocity.y <= 0)
+            || (posY + camHeight < mapMaxVertical && rbody.velocity.y > 0)
+            || (posX - camWidth > -mapMaxHorizontal && rbody.velocity.x <= 0)
+            || (posX + camWidth < mapMaxHorizontal && rbody.velocity.x > 0);*/
+        
         rbody.MovePosition(rbody.position + translationVector);
+       
     }
 
     void giveLeaflet()
