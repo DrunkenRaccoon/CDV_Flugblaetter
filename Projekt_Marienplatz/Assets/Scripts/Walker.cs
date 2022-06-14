@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class Walker : MonoBehaviour
 {
     GameObject waypointsObject;
@@ -39,7 +38,7 @@ public class Walker : MonoBehaviour
     public Religion religion;
     public CivilStatus civilStatus;
     public bool isParent;
-    public int politicalStance;
+    public float politicalStance;
 
     public Party[] partyAffiliation;
 
@@ -52,7 +51,7 @@ public class Walker : MonoBehaviour
     Sprite[] characterSpritesMale = new Sprite[7];
     [SerializeField]
     Sprite[] characterSpritesFemale = new Sprite[6];
-    
+
 
 
     // Start is called before the first frame update
@@ -102,17 +101,19 @@ public class Walker : MonoBehaviour
         return !camScript.isInCameraBounds(transform.position);
     }
 
+    float box_muller(float mean, float stdDev){
+      float u1 = 1.0f - Random.value;
+      float u2 = 1.0f - Random.value;
+      float randStdNorm = Mathf.Sqrt(-2.0f * Mathf.Log(u1)) * Mathf.Sin(2.0f * Mathf.PI * u2);
+      float randNorm = mean + stdDev * randStdNorm;
+      return randNorm;
+    }
+
     void generateCharacterTraits()
     {
       // IMPORTANT //
       //This will generate normal distributed random floats given the mean and standard deviation of the distribution
-      float box_muller(float mean, float stdDev){
-        float u1 = 1.0f - Random.value;
-        float u2 = 1.0f - Random.value;
-        float randStdNorm = Mathf.Sqrt(-2.0f * Mathf.Log(u1)) * Mathf.Sin(2.0f * Mathf.PI * u2);
-        float randNorm = mean + stdDev * randStdNorm;
-        return randNorm;
-      }
+
 
       // Gender
         if (Random.Range(0, 2) == 0)
@@ -130,6 +131,8 @@ public class Walker : MonoBehaviour
         // Example case: People of jewish religion had better access to education, thus the distribution works in favour of a high education.
         // Also the political stance is leaned more to the left
 
+
+        //TODO Normalize everything to [0,10] where 0 is the lowest (e.g. uneducated) and 10 is the highest
         if (Random.Range(0, 5) == 0)
         {
             religion = Religion.Jewish;
@@ -193,14 +196,69 @@ public class Walker : MonoBehaviour
         }
     }
 
-
+    // TODO Implement fetch leaflet data
+    // !!IMPORTANT!! Implement Leaflet Data as List
     public int rewardLeaflet()
     {
+
+      List<Gender> gender_leaf = new List<Gender>();
+      float education_leaf = 0f;
+      List<Job> job_leaf = new List<Job>();
+      bool isWarDisabled_leaf;
+      List<Religion> religion_leaf = new List<Religion>();
+      List<CivilStatus> civilStatus_leaf = new List<CivilStatus>();
+      float politicalStance_leaf = 0f;
+
+
+      //evaluates evaluation difference
+      float evalDiff(float leaf, float walk){
+        float diff = 0f;
+        if(leaf<walk){
+          diff = walk - leaf;
+        }else{
+          diff = leaf - walk;
+        }
+        // Sets threshhold to maximum of 3, then if higher, the evaluated bonus gets negative
+        float thresh = 3f - diff;
+        // Adds some tiny randomness for fun
+        return box_muller(1f, 0.2f) * thresh;
+      }
+
+
         // need to implement reward function. Always returns 1 or 0 for now.
         if (!hasReceivedLeaflet)
         {
-            hasReceivedLeaflet = true;
-            return 1;
+          float factor = 0f;
+          if(gender_leaf.Contains(gender)){
+            factor = factor + 1f;
+          }else{
+            factor = factor - 1f;
+          }
+
+          if(job_leaf.Contains(job)){
+            factor = factor + 1f;
+          }else{
+            factor = factor - 1f;
+          }
+
+          if(religion_leaf.Contains(religion)){
+            factor = factor + 1f;
+          }else{
+            factor = factor - 1f;
+          }
+
+          if(civilStatus_leaf.Contains(civilStatus)){
+            factor = factor + 1f;
+          }else{
+            factor = factor - 1f;
+          }
+
+          factor = factor + evalDiff(education_leaf, education);
+          factor = factor + evalDiff(politicalStance_leaf, politicalStance);
+
+          hasReceivedLeaflet = true;
+
+          return Mathf.RoundToInt(box_muller(1f, 0.2f) * factor * 100f);
         }
         return 0;
     }
