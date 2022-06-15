@@ -21,37 +21,41 @@ public class Walker : MonoBehaviour
     UnityEngine.AI.NavMeshAgent agent;
 
     public enum Gender {Female, Male}
-    public enum Job { Employee = 0, Worker = 1, Unemployed = 2, Officer = 3, Farmer = 4, Capitalist = 5, Soldier = 6}
+    public enum Job { Employee = 0, Worker = 1, Unemployed = 2, Officer = 3, Farmer = 4, Capitalist = 5, Soldier = 6, Housewive = 7, Widow = 8 }
     public enum Religion {Catholic, Protestant, Jewish, Atheist}
-    public enum CivilStatus {Single, Married, Widowed, Orphaned}
+    //public enum CivilStatus {Single, Married, Widowed}
     public enum PoliticalStance {Liberal, Conservative}
+    public enum Education { Low, Middle, Academic}
     public static string[] namesFemale = {"Ursula", "Ilse", "Hildegard", "Gerda", "Ingeborg", "Irmgard", "Helga", "Gertrud", "Lieselotte", "Edith", "Erika", "Elfriede", "Gisela", "Elisabeth", "Ruth", "Anneliese", "Margarete", "Margot", "Erna", "Herta", "Maria", "Inge", "Anna", "Käthe", "Waltraud", "Ingrid", "Charlotte", "Eva", "Martha", "Else", "Irma", "Lisa", "Marianne", "Annemarie", "Frida", "Hannelore", "Karla", "Elli", "Anni", "Helene", "Lotte", "Christa", "Christel", "Hedwig", "Johanna", "Luise", "Hilde", "Wilma", "Irene", "Dorothea", "Renate", "Anita", "Marie", "Ingeburg", "Vera", "Rosemarie", "Jutta", "Elsa", "Grete", "Emma", "Rita", "Ellen", "Klara", "Thea", "Marga", "Anne", "Ella", "Emmi", "Hannah", "Elsbeth", "Lydia", "Olga", "Katharina", "Agnes", "Magda", "Brigitte", "Dora", "Paula", "Eleonore", "Hilda", "Alice", "Edeltraud", "Hella", "Berta", "Sonja", "Magdalena", "Sigrid", "Margareta", "Lilli", "Gretchen", "Rosa", "Gertraud", "Barbara", "Magdalene", "Brunhilde", "Meta", "Wally", "Traute" };
     public static string[] namesMale = {"Hans", "Günther", "Karl", "Heinz", "Werner", "Gerhard", "Walther", "Kurt", "Horst", "Helmut", "Herbert", "Ernst", "Rudolph", "Willi", "Rolf", "Erich", "Heinrich", "Otto", "Wilhelm", "Alfred", "Hermann", "Paul", "Erwin", "Wolfgang", "Klaus", "Fritz", "Friedrich", "Harald", "Franz", "Georg", "Peter", "Egon", "Bruno", "Gerd", "Harry", "Johannes", "Richard", "Jürgen", "Bernhard", "Josef", "Johann", "Joachim", "Sigfried", "Manfred", "Robert", "Albert", "Adolph", "Lothar", "Max", "Gustav", "Ewald", "Reinhold", "Martin", "Arthur", "Henri", "Karlheinz", "Edgar", "Rudi", "Ulrich", "Reinhard", "Waldemar", "Emil", "Arnold", "Diedrich", "Arno", "Eberhard", "Theodor", "Erhard", "Dieter", "Alexander", "Edmund", "Eduard", "Hugo", "Uwe", "Konrad", "Alfons", "Ludwig", "August", "Hubert", "Oskar", "Wilfried", "Anton", "Norbert", "Christian", "Gottfried", "Victor", "Fred", "Leo", "Bodo", "Michael", "Johnny", "Berthold", "Ralph", "Jakob", "Alois", "Ferdinand", "Alwin", "John", "Julius", "Jan" };
     public static Job[] JobList = { Job.Farmer, Job.Worker, Job.Employee, Job.Officer, Job.Capitalist, Job.Soldier };
-    public enum Party {KPD, USPD, MSPD, DDP, WBWB, Zentrum, Buergerpartei}
+    public enum Party {KPD, SPD, DDP, DVP, Zentrum, Buergerpartei, Deutschnational}
 
     public string firstName;
     public Gender gender;
-    public float education;
+    public Education education;
     public int age;
     public Job job;
-    public bool isWarDisabled;
+    public bool isWarDisabled = false;
     public Religion religion;
-    public CivilStatus civilStatus;
-    public bool isParent;
+    //public CivilStatus civilStatus;
     public int politicalStance;
 
     public Party[] partyAffiliation;
 
     GameObject bodyObject;
     GameObject outlineObject;
+    GameObject accessoireObject;
     SpriteRenderer bodySprite;
     SpriteRenderer outlineSprite;
+    SpriteRenderer accessoireSprite;
 
     [SerializeField]
-    Sprite[] characterSpritesMale = new Sprite[7];
+    Sprite[] characterSpritesMale = new Sprite[8];
     [SerializeField]
-    Sprite[] characterSpritesFemale = new Sprite[6];
+    Sprite[] characterSpritesFemale = new Sprite[8];
+    [SerializeField]
+    Sprite[] accessoireSprites = new Sprite[3];
     
 
 
@@ -75,8 +79,10 @@ public class Walker : MonoBehaviour
 
         bodyObject = transform.Find("Body").gameObject;
         outlineObject = transform.Find("Outline").gameObject;
+        accessoireObject = transform.Find("Accessoire").gameObject;
         bodySprite = bodyObject.GetComponent<SpriteRenderer>();
         outlineSprite = outlineObject.GetComponent<SpriteRenderer>();
+        accessoireSprite = accessoireObject.GetComponent<SpriteRenderer>();
 
         generateCharacterTraits();
         generateCharacterAppearance();
@@ -104,33 +110,111 @@ public class Walker : MonoBehaviour
 
     void generateCharacterTraits()
     {
-      // IMPORTANT //
-      //This will generate normal distributed random floats given the mean and standard deviation of the distribution
-      float box_muller(float mean, float stdDev){
-        float u1 = 1.0f - Random.value;
-        float u2 = 1.0f - Random.value;
-        float randStdNorm = Mathf.Sqrt(-2.0f * Mathf.Log(u1)) * Mathf.Sin(2.0f * Mathf.PI * u2);
-        float randNorm = mean + stdDev * randStdNorm;
-        return randNorm;
-      }
+        // IMPORTANT //
+        //This will generate normal distributed random floats given the mean and standard deviation of the distribution
+        float box_muller(float mean, float stdDev)
+        {
+            float u1 = 1.0f - Random.value;
+            float u2 = 1.0f - Random.value;
+            float randStdNorm = Mathf.Sqrt(-2.0f * Mathf.Log(u1)) * Mathf.Sin(2.0f * Mathf.PI * u2);
+            float randNorm = mean + stdDev * randStdNorm;
+            return randNorm;
+        }
 
-      // Gender
+        // Age
+        age = (int) Mathf.Clamp(Mathf.Abs( box_muller(0, 40)) + 15, 17, 79);
+
+        // Gender
         if (Random.Range(0, 2) == 0)
         {
             gender = Gender.Female;
-            firstName = namesFemale[Random.Range(0, namesFemale.Length)];
+            firstName = getRandomElement(namesFemale);
         }
         else
         {
             gender = Gender.Male;
-            firstName = namesMale[Random.Range(0, namesMale.Length)];
+            firstName = getRandomElement(namesMale);
+        }
+
+
+        // note: all of the magic numbers used for determining the likelihood of certain attributes are just guesswork
+
+        // Education & Job
+        int educationRan = Random.Range(0, 101);
+        if (gender == Gender.Female)
+        {
+            if (educationRan <= 70)
+            {
+                education = Education.Low;
+
+                job = getRandomElement(new Job[] { Job.Unemployed, Job.Housewive, Job.Farmer, Job.Worker, Job.Employee });
+            }
+            else if (educationRan <= 99)
+            {
+                education = Education.Middle;
+
+                job = getRandomElement(new Job[] { Job.Employee, Job.Officer, Job.Housewive });
+            }
+            else
+            {
+                education = Education.Academic;
+                job = getRandomElement(new Job[] { Job.Officer });
+            }
+        }
+        else
+        {
+            if(educationRan <= 60)
+            {
+                education = Education.Low;
+
+                job = getRandomElement(new Job[] { Job.Unemployed, Job.Employee, Job.Farmer, Job.Soldier, Job.Worker});
+            }
+            else if (educationRan <= 90)
+            {
+                education = Education.Middle;
+
+                job = getRandomElement(new Job[] { Job.Employee, Job.Officer });
+            }
+            else
+            {
+                education = Education.Academic;
+
+                job = getRandomElement(new Job[] { Job.Capitalist, Job.Officer });
+            }
+        }
+
+        // Disability
+        if (job == Job.Soldier)
+        {
+            if (Random.Range(0, 5) == 0)
+            {
+                isWarDisabled = true;
+            }
         }
 
         // Religion
+        if ((job == Job.Employee || job == Job.Officer) && Random.Range(0, 5) == 0)
+        {
+            religion = Religion.Jewish;
+        } 
+        else if (Random.Range(0, 50) == 0)
+        {
+            religion = Religion.Atheist;
+        }
+        else if (Random.Range(0, 2) == 0)
+        {
+            religion = Religion.Protestant;
+        }
+        else
+        {
+            religion = Religion.Catholic;
+        }
+
+        // Religion old version
         // Example case: People of jewish religion had better access to education, thus the distribution works in favour of a high education.
         // Also the political stance is leaned more to the left
 
-        if (Random.Range(0, 5) == 0)
+        /*if (Random.Range(0, 5) == 0)
         {
             religion = Religion.Jewish;
             education = box_muller(7f, 2f);
@@ -148,7 +232,7 @@ public class Walker : MonoBehaviour
             politicalStance = Mathf.RoundToInt(box_muller(5f, 5f));
             job = JobList[Random.Range(0,6)];
         }
-
+        */
 
 
 
@@ -167,6 +251,19 @@ public class Walker : MonoBehaviour
         }
         bodySprite.color = Color.white;
         outlineSprite.color = Color.black;
+
+        if (isWarDisabled)
+        {
+            accessoireSprite.sprite = accessoireSprites[0];
+        }
+        if (religion == Religion.Catholic)
+        {
+            accessoireSprite.sprite = accessoireSprites[1];
+        }
+        if (religion == Religion.Protestant)
+        {
+            accessoireSprite.sprite = accessoireSprites[2];
+        }
     }
 
     void tryInteractingWithPlayer()
@@ -175,7 +272,6 @@ public class Walker : MonoBehaviour
         if (distFromPlayer <= reachOfPlayer && (!playerScript.isTalkingToWalker || playerScript.talkingWaker == gameObject))
         {
             agent.isStopped = true;
-            //bodySprite.color = Color.yellow;
             outlineSprite.enabled = true;
             playerScript.isTalkingToWalker = true;
             playerScript.talkingWaker = gameObject;
@@ -188,7 +284,6 @@ public class Walker : MonoBehaviour
                 playerScript.talkingWaker = null;
             }
             agent.isStopped = false;
-            //this.GetComponentInChildren<SpriteRenderer>().color = Color.white;
             outlineSprite.enabled = false;
         }
     }
@@ -203,5 +298,10 @@ public class Walker : MonoBehaviour
             return 1;
         }
         return 0;
+    }
+
+    T getRandomElement<T>(T[] tarray)
+    {
+        return tarray[Random.Range(0, tarray.Length)];
     }
 }
