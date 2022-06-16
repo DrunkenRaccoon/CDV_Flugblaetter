@@ -52,6 +52,9 @@ public class Walker : MonoBehaviour
     SpriteRenderer outlineSprite;
     SpriteRenderer accessoireSprite;
 
+    GameObject leafletsObject;
+    Leaflets leafletsScript;
+
     [SerializeField]
     Sprite[] characterSpritesMale = new Sprite[8];
     [SerializeField]
@@ -76,6 +79,9 @@ public class Walker : MonoBehaviour
 
         player = GameObject.Find("Player");
         playerScript = player.GetComponent<Player>();
+
+        leafletsObject = GameObject.Find("Leaflets");
+        leafletsScript = leafletsObject.GetComponent<Leaflets>();
 
         agent.destination = waypointsScript.getRandomDestination();
 
@@ -369,13 +375,14 @@ public class Walker : MonoBehaviour
     // !!IMPORTANT!! Implement Leaflet Data as List
     public int rewardLeaflet()
     {
-        List<Gender> gender_leaf = new List<Gender>();
-        float education_leaf = 0f;
-        List<Job> job_leaf = new List<Job>();
-        bool isWarDisabled_leaf;
-        List<Religion> religion_leaf = new List<Religion>();
-        List<CivilStatus> civilStatus_leaf = new List<CivilStatus>();
-        float politicalStance_leaf = 0f;
+        Leaflets.Leaflet currentLeaflet = leafletsScript.leafletArray[leafletsScript.currentLeafletIndex];
+        Gender[] gender_leaf = currentLeaflet.Genders;
+        //float education_leaf = 0f;
+        Job[] job_leaf = currentLeaflet.Jobs;
+        //bool isWarDisabled_leaf;
+        Religion[] religion_leaf = currentLeaflet.Religions;
+        CivilStatus[] civiclStatus_leaf = currentLeaflet.CivilStatuses;
+        float politicalStance_leaf = 0f; //TODO!!
 
 
         //evaluates evaluation difference
@@ -400,7 +407,7 @@ public class Walker : MonoBehaviour
         if (!hasReceivedLeaflet)
         {
             float factor = 0f;
-            if (gender_leaf.Contains(gender))
+            if (isInArray(gender,gender_leaf))
             {
                 factor = factor + 1f;
             }
@@ -409,7 +416,7 @@ public class Walker : MonoBehaviour
                 factor = factor - 1f;
             }
 
-            if (job_leaf.Contains(job))
+            if (isInArray(job, job_leaf))
             {
                 factor = factor + 1f;
             }
@@ -418,7 +425,7 @@ public class Walker : MonoBehaviour
                 factor = factor - 1f;
             }
 
-            if (religion_leaf.Contains(religion))
+            if (isInArray(religion, religion_leaf))
             {
                 factor = factor + 1f;
             }
@@ -427,7 +434,7 @@ public class Walker : MonoBehaviour
                 factor = factor - 1f;
             }
 
-            if (civilStatus_leaf.Contains(civilStatus))
+            if (isInArray(civilStatus, civiclStatus_leaf))
             {
                 factor = factor + 1f;
             }
@@ -436,7 +443,7 @@ public class Walker : MonoBehaviour
                 factor = factor - 1f;
             }
 
-            factor = factor + evalDiff(education_leaf, (int)education);
+            //factor = factor + evalDiff(education_leaf, (int)education);
             factor = factor + evalDiff(politicalStance_leaf, politicalStance);
 
             hasReceivedLeaflet = true;
@@ -450,4 +457,19 @@ public class Walker : MonoBehaviour
     {
         return tarray[Random.Range(0, tarray.Length)];
     }
+
+    bool isInArray<T>(T element, T[] array)
+    {
+        foreach (T el in array)
+        {
+            if(el.Equals(element))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+   
 }

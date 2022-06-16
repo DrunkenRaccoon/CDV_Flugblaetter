@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: LeafletSprites
+  m_EditorClassIdentifier: 
+  m_GroupName: LeafletSprites
+  m_Data:
+    m_SerializedData: []
+  m_GUID: f4b0c60b03445bb4186154959f2a1077
+  m_SerializeEntries: []
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: e96536b9f313ee54481c354f80067e60, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 7c790e8f1262b2b4c9744d02092badc1, type: 2}
+    - {fileID: 11400000, guid: b50e0d4eba7439948b228242b6063c4c, type: 2}
