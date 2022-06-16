@@ -12,8 +12,8 @@ public class Player : MonoBehaviour
 
     public int score = 0;
 
-    readonly int mapMaxHorizontal = 650;
-    readonly int mapMaxVertical = 350;
+    /*readonly int mapMaxHorizontal = 650;
+    readonly int mapMaxVertical = 350;*/
 
     // Start is called before the first frame update
     void Start()
