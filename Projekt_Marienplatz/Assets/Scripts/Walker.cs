@@ -21,15 +21,17 @@ public class Walker : MonoBehaviour
     UnityEngine.AI.NavMeshAgent agent;
 
     public enum Gender {Female, Male}
+
+    // the int associated with each job is used to determine the sprite
     public enum Job { Employee = 0, Worker = 1, Unemployed = 2, Officer = 3, Farmer = 4, Capitalist = 5, Soldier = 6, Housewive = 7, Widow = 8 }
     public enum Religion {Catholic, Protestant, Jewish, Atheist}
-    //public enum CivilStatus {Single, Married, Widowed}
-    public enum PoliticalStance {Liberal, Conservative}
+    public enum CivilStatus {Single, Married, Widowed}
+    public enum PoliticalStance {Left = 0, Liberal = 4, Conservative = 7}
     public enum Education { Low, Middle, Academic}
     public static string[] namesFemale = {"Ursula", "Ilse", "Hildegard", "Gerda", "Ingeborg", "Irmgard", "Helga", "Gertrud", "Lieselotte", "Edith", "Erika", "Elfriede", "Gisela", "Elisabeth", "Ruth", "Anneliese", "Margarete", "Margot", "Erna", "Herta", "Maria", "Inge", "Anna", "Käthe", "Waltraud", "Ingrid", "Charlotte", "Eva", "Martha", "Else", "Irma", "Lisa", "Marianne", "Annemarie", "Frida", "Hannelore", "Karla", "Elli", "Anni", "Helene", "Lotte", "Christa", "Christel", "Hedwig", "Johanna", "Luise", "Hilde", "Wilma", "Irene", "Dorothea", "Renate", "Anita", "Marie", "Ingeburg", "Vera", "Rosemarie", "Jutta", "Elsa", "Grete", "Emma", "Rita", "Ellen", "Klara", "Thea", "Marga", "Anne", "Ella", "Emmi", "Hannah", "Elsbeth", "Lydia", "Olga", "Katharina", "Agnes", "Magda", "Brigitte", "Dora", "Paula", "Eleonore", "Hilda", "Alice", "Edeltraud", "Hella", "Berta", "Sonja", "Magdalena", "Sigrid", "Margareta", "Lilli", "Gretchen", "Rosa", "Gertraud", "Barbara", "Magdalene", "Brunhilde", "Meta", "Wally", "Traute" };
     public static string[] namesMale = {"Hans", "Günther", "Karl", "Heinz", "Werner", "Gerhard", "Walther", "Kurt", "Horst", "Helmut", "Herbert", "Ernst", "Rudolph", "Willi", "Rolf", "Erich", "Heinrich", "Otto", "Wilhelm", "Alfred", "Hermann", "Paul", "Erwin", "Wolfgang", "Klaus", "Fritz", "Friedrich", "Harald", "Franz", "Georg", "Peter", "Egon", "Bruno", "Gerd", "Harry", "Johannes", "Richard", "Jürgen", "Bernhard", "Josef", "Johann", "Joachim", "Sigfried", "Manfred", "Robert", "Albert", "Adolph", "Lothar", "Max", "Gustav", "Ewald", "Reinhold", "Martin", "Arthur", "Henri", "Karlheinz", "Edgar", "Rudi", "Ulrich", "Reinhard", "Waldemar", "Emil", "Arnold", "Diedrich", "Arno", "Eberhard", "Theodor", "Erhard", "Dieter", "Alexander", "Edmund", "Eduard", "Hugo", "Uwe", "Konrad", "Alfons", "Ludwig", "August", "Hubert", "Oskar", "Wilfried", "Anton", "Norbert", "Christian", "Gottfried", "Victor", "Fred", "Leo", "Bodo", "Michael", "Johnny", "Berthold", "Ralph", "Jakob", "Alois", "Ferdinand", "Alwin", "John", "Julius", "Jan" };
     public static Job[] JobList = { Job.Farmer, Job.Worker, Job.Employee, Job.Officer, Job.Capitalist, Job.Soldier };
-    public enum Party {KPD, SPD, DDP, DVP, Zentrum, Buergerpartei, Deutschnational}
+    public enum Party {KPD, USPD, MSPD, DDP, DVP, WBWB, Zentrum, Buergerpartei}
 
     public string firstName;
     public Gender gender;
@@ -38,8 +40,8 @@ public class Walker : MonoBehaviour
     public Job job;
     public bool isWarDisabled = false;
     public Religion religion;
-    //public CivilStatus civilStatus;
-    public int politicalStance;
+    public CivilStatus civilStatus;
+    public float politicalStance;
 
     public Party[] partyAffiliation;
 
@@ -122,7 +124,8 @@ public class Walker : MonoBehaviour
         }
 
         // Age
-        age = (int) Mathf.Clamp(Mathf.Abs( box_muller(0, 40)) + 15, 17, 79);
+        age = (int) Mathf.Clamp(Mathf.Abs( box_muller(0, 20)) + 15, 17, 79);
+
 
         // Gender
         if (Random.Range(0, 2) == 0)
@@ -163,11 +166,11 @@ public class Walker : MonoBehaviour
         }
         else
         {
-            if(educationRan <= 60)
+            if(educationRan <= 70)
             {
                 education = Education.Low;
 
-                job = getRandomElement(new Job[] { Job.Unemployed, Job.Employee, Job.Farmer, Job.Soldier, Job.Worker});
+                job = getRandomElement(new Job[] { Job.Unemployed, Job.Employee, Job.Farmer, Job.Soldier, Job.Worker, Job.Worker, Job.Worker});
             }
             else if (educationRan <= 90)
             {
@@ -210,7 +213,80 @@ public class Walker : MonoBehaviour
             religion = Religion.Catholic;
         }
 
-        // Religion old version
+        // Civil Status
+
+        if (gender == Gender.Female && Random.Range(0, 10) == 0)
+        {
+            civilStatus = CivilStatus.Widowed;            
+        }
+        else if (gender == Gender.Male && Random.Range(0,20) == 0)
+        {
+            civilStatus = CivilStatus.Widowed;
+        }
+        else if (age >= 80 && Random.Range(0,2)==0)
+        {
+            civilStatus = CivilStatus.Widowed;
+        }
+        else if (Random.Range(0,80) < age + 30)
+        {
+            civilStatus = CivilStatus.Married;
+        }
+        else
+        {
+            civilStatus = CivilStatus.Single;
+        }
+
+        if (civilStatus == CivilStatus.Widowed && gender == Gender.Female)
+        {
+            job = Job.Widow;
+        }
+
+        // Political Stance
+        switch (job)
+        {
+            case Job.Worker:
+                politicalStance = new float[] { 0, 5} [Random.Range(0, 2)];
+                break;
+            case Job.Employee:
+                politicalStance = Random.Range(3, 5);
+                break;
+            case Job.Unemployed:
+                politicalStance = new float[] { 0, 5 }[Random.Range(0, 2)];
+                break;
+            case Job.Officer:
+                politicalStance = Random.Range(4, 5);
+                break;
+            case Job.Farmer:
+                politicalStance = Random.Range(5, 6);
+                break;
+            case Job.Capitalist:
+                politicalStance = Random.Range(5, 6);
+                break;
+            case Job.Soldier:
+                politicalStance = Random.Range(5, 6);
+                break;
+            case Job.Housewive:
+                politicalStance = Random.Range(3, 5);
+                break;
+            case Job.Widow:
+                politicalStance = new float[] { 2, 5 }[Random.Range(0, 2)];
+                break;
+        }
+        if (religion == Religion.Atheist || religion == Religion.Jewish)
+        {
+            politicalStance--;
+        }
+        else
+        {
+            politicalStance++;
+        }
+        //add +/-1 for some random
+        politicalStance += new float[] { -1, 1 }[Random.Range(0, 2)];
+        // clamp
+        politicalStance = Mathf.Clamp(politicalStance, 0, 7);
+
+
+        // old version:
         // Example case: People of jewish religion had better access to education, thus the distribution works in favour of a high education.
         // Also the political stance is leaned more to the left
 
