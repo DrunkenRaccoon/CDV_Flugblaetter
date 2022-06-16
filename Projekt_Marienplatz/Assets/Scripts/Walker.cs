@@ -436,7 +436,7 @@ public class Walker : MonoBehaviour
                 factor = factor - 1f;
             }
 
-            factor = factor + evalDiff(education_leaf, education);
+            factor = factor + evalDiff(education_leaf, (int)education);
             factor = factor + evalDiff(politicalStance_leaf, politicalStance);
 
             hasReceivedLeaflet = true;
