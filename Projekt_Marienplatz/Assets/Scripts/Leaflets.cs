@@ -34,7 +34,8 @@ public class Leaflets : MonoBehaviour
     [SerializeField]
     public Leaflet[] leafletArray = new Leaflet[25];
 
-    public int currentLeafletIndex = 0;
+    [SerializeField]
+    public int currentLeafletIndex = 2;
 
     SpriteRenderer spriteRenderer;
 
@@ -44,7 +45,8 @@ public class Leaflets : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        spriteRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
+        
 
         leafletArray[0] = new Leaflet(
             "017",
@@ -73,8 +75,28 @@ public class Leaflets : MonoBehaviour
             new PoliticalStance[] { PoliticalStance.Liberal, PoliticalStance.Left },
             new Party[] { Party.KPD, Party.USPD, Party.MSPD}
             );
+        leafletArray[3] = new Leaflet(
+            "026",
+            new Gender[] { Gender.Female, Gender.Male },
+            new Job[] { Job.Officer, Job.Worker, Job.Farmer },
+            new Religion[] { Religion.Atheist, Religion.Protestant, Religion.Jewish },
+            new CivilStatus[] { CivilStatus.Married, CivilStatus.Single, CivilStatus.Widowed },
+            new PoliticalStance[] { PoliticalStance.Liberal, PoliticalStance.Left },
+            new Party[] { Party.KPD, Party.USPD }
+            );
+        leafletArray[4] = new Leaflet(
+            "040",
+            new Gender[] { Gender.Female, Gender.Male },
+            new Job[] { Job.Employee, Job.Worker, Job.Farmer },
+            new Religion[] { Religion.Atheist, Religion.Jewish, Religion.Protestant},
+            new CivilStatus[] { CivilStatus.Married, CivilStatus.Single, CivilStatus.Widowed },
+            new PoliticalStance[] { PoliticalStance.Liberal, PoliticalStance.Left },
+            new Party[] { Party.USPD, Party.MSPD }
+            );
 
-        
+
+
+        spriteRenderer.sprite = leafletArray[currentLeafletIndex].sprite;
     }
 
     // Update is called once per frame

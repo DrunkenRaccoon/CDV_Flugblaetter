@@ -448,7 +448,7 @@ public class Walker : MonoBehaviour
 
             hasReceivedLeaflet = true;
 
-            return Mathf.RoundToInt(box_muller(1f, 0.2f) * factor * 100f);
+            return Mathf.Max(0, Mathf.RoundToInt(box_muller(1f, 0.2f) * factor * 100f));
         }
         return 0;
     }

@@ -10,7 +10,7 @@ public class WayPoints : MonoBehaviour
     public Vector2[] waypointPositions;
 
     List<GameObject> walkerList = new List<GameObject>();
-    int numOfWalkers = 20;
+    int numOfWalkers = 35;
     [SerializeField] 
     GameObject walkerPrefab;
 

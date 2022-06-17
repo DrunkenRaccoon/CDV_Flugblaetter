@@ -7,6 +7,7 @@ public class Score : MonoBehaviour
 {
     GameObject score;
     TMP_Text scoreText;
+    
 
     GameObject player;
     Player playerScript;
@@ -14,7 +15,7 @@ public class Score : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        score = GameObject.Find("Score");
+        score = GameObject.Find("Score Text");
         scoreText = score.GetComponent<TMP_Text>();
 
         player = GameObject.Find("Player");
