@@ -10,6 +10,9 @@ public class Player : MonoBehaviour
     public bool isTalkingToWalker = false;
     public GameObject talkingWaker;
 
+    GameObject leafletsObject;
+    Leaflets leafletsScript;
+
     public int score = 0;
 
     /*readonly int mapMaxHorizontal = 650;
@@ -20,6 +23,9 @@ public class Player : MonoBehaviour
     {
         speed = 50f;
         rbody = gameObject.GetComponent<Rigidbody2D>();
+
+        leafletsObject = GameObject.Find("Leaflets");
+        leafletsScript = leafletsObject.GetComponent<Leaflets>();
     }
 
     // Update is called once per frame
@@ -55,10 +61,14 @@ public class Player : MonoBehaviour
 
     void giveLeaflet()
     {
-        if(talkingWaker != null)
+        Leaflets.Leaflet currentLeaflet = leafletsScript.leafletArray[leafletsScript.currentLeafletIndex];
+
+        if (talkingWaker != null)
         {
             Walker walkerScript = talkingWaker.GetComponent<Walker>();
-            score += walkerScript.rewardLeaflet();
+
+            // TODO wenn reward gleich null -> Zeitmalus
+            score += walkerScript.rewardLeaflet(currentLeaflet);
         }
     }
 }
