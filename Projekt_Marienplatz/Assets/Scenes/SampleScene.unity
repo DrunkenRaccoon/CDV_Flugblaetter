@@ -170,7 +170,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 678.35474, y: 9.531921}
+  m_Offset: {x: 707.3375, y: -2.5070648}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -181,7 +181,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 113.65802, y: 661.07117}
+  m_Size: {x: 55.692383, y: 758.2749}
   m_EdgeRadius: 0
 --- !u!61 &6556011
 BoxCollider2D:
@@ -196,7 +196,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -672.00024, y: -28.595764}
+  m_Offset: {x: -694.2947, y: -13.881439}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -207,7 +207,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 112.60724, y: 751.2219}
+  m_Size: {x: 68.01831, y: 780.6506}
   m_EdgeRadius: 0
 --- !u!61 &6556012
 BoxCollider2D:
@@ -222,7 +222,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -370.15607}
+  m_Offset: {x: 0, y: -394.23407}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -233,7 +233,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1449.8777, y: 90.71884}
+  m_Size: {x: 1449.8777, y: 42.562897}
   m_EdgeRadius: 0
 --- !u!61 &6556013
 BoxCollider2D:
@@ -248,7 +248,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -5.234009, y: 379.68805}
+  m_Offset: {x: -5.234009, y: 392.1729}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -259,7 +259,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1441.5823, y: 72.24118}
+  m_Size: {x: 1441.5823, y: 47.271454}
   m_EdgeRadius: 0
 --- !u!1 &77148477
 GameObject:
@@ -4366,7 +4366,7 @@ MonoBehaviour:
     CivilStatuses: 
     PoliticalStances: 
     Parties: 
-  currentLeafletIndex: 3
+  currentLeafletIndex: 0
   spriteNames:
   - 017
   - 019
